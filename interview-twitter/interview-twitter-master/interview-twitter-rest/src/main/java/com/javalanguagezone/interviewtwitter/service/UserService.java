@@ -73,11 +73,28 @@ public class UserService implements UserDetailsService {
     return convertUsersToDTOs(user.getFollowers());
   }
 
+  public UserDTO createUser(User user) {
+    try {
+      User saved = this.userRepository.save(user);
+      return new UserDTO(saved);
+    }
+    catch(Exception ex) {
+      throw new InvalidUserException(user);
+    }
+  }
+
   private User getUser(String username) {
     return userRepository.findOneByUsername(username);
   }
 
   private List<UserDTO> convertUsersToDTOs(Set<User> users) {
     return users.stream().map(UserDTO::new).collect(toList());
+  }
+
+  public static class InvalidUserException extends RuntimeException {
+
+    private InvalidUserException(User user) {
+      super("'" +  user.toString() + "'");
+    }
   }
 }

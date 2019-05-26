@@ -1,6 +1,8 @@
 package com.javalanguagezone.interviewtwitter.service.dto;
 
 import com.javalanguagezone.interviewtwitter.domain.Tweet;
+import com.javalanguagezone.interviewtwitter.domain.User;
+
 import lombok.*;
 
 import static lombok.AccessLevel.PRIVATE;
@@ -10,11 +12,11 @@ import static lombok.AccessLevel.PRIVATE;
 public class TweetDTO {
   private Long id;
   private String content;
-  private AuthorDTO author;
+  private UserDTO author;
 
   public TweetDTO(Tweet tweet) {
     this.id = tweet.getId();
     this.content = tweet.getContent();
-    this.author = new AuthorDTO(tweet.getAuthor().getUsername(), tweet.getAuthor().getFullName());
+    this.author = new UserDTO(new User(tweet.getAuthor().getFullName(), tweet.getAuthor().getUsername(), ""));
   }
 }

@@ -45,7 +45,7 @@ public class TweetControllerIntegrationTest extends RestIntegrationTest {
     Tweet fromDb = tweetRepository.findOne(tweet.getId());
     assertThat(fromDb, notNullValue());
     assertThat(fromDb.getContent(), equalTo(tweet.getContent()));
-    assertThat(fromDb.getAuthor().getUsername(), equalTo(tweet.getAuthor()));
+    assertThat(fromDb.getAuthor().getUsername(), equalTo(tweet.getAuthor().getUsername()));
   }
 
   @Test

@@ -1,6 +1,8 @@
 package com.javalanguagezone.interviewtwitter.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -43,14 +45,24 @@ public class User implements UserDetails {
   @ManyToMany(mappedBy = "following")
   private Set<User> followers = new HashSet<>();
 
-  @JsonIgnore
   private String password;
+
+  @JsonIgnore
+  public String getPassword() {
+    return this.password;
+  }
+
+  @JsonProperty
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
   public User(String fullName, String username, String password) {
     this.fullName = fullName;
     this.username = username;
     this.password = password;
   }
+
 
   public void addFollowing(User... users){
     following.addAll(Arrays.asList(users));

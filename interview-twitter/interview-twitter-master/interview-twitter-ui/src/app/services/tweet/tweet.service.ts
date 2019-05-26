@@ -5,7 +5,6 @@ import {Observable} from "rxjs/Observable";
 import { Detail } from '../../models/detail.model';
 
 const ENDPOINT_BASE = '/api/tweets';
-const DETAIL_ENDPOINT  = '/api/details';
 
 @Injectable()
 export class TweetService {
@@ -25,7 +24,5 @@ export class TweetService {
     return this.http.post<TweetModel>(ENDPOINT_BASE, tweetContent);
   }
 
-  getUserDetails(username : string) {
-    return this.http.get<Detail>(DETAIL_ENDPOINT + '/' + username);
-  }
+
 }
