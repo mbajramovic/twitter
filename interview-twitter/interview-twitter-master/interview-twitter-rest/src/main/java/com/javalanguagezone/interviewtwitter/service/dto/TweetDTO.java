@@ -10,11 +10,11 @@ import static lombok.AccessLevel.PRIVATE;
 public class TweetDTO {
   private Long id;
   private String content;
-  private String author;
+  private AuthorDTO author;
 
   public TweetDTO(Tweet tweet) {
     this.id = tweet.getId();
     this.content = tweet.getContent();
-    this.author = tweet.getAuthor().getUsername();
+    this.author = new AuthorDTO(tweet.getAuthor().getUsername(), tweet.getAuthor().getFullName());
   }
 }

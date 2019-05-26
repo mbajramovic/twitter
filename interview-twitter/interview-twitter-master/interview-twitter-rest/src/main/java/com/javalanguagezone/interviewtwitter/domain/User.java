@@ -7,6 +7,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import java.util.*;
 
 import static java.util.Collections.singletonList;
@@ -29,6 +31,10 @@ public class User implements UserDetails {
   @Column(unique = true)
   private String username;
 
+  @Column
+  @NotNull
+  private String fullName;
+
   @JsonIgnore
   @ManyToMany
   private Set<User> following = new HashSet<>();
@@ -40,7 +46,8 @@ public class User implements UserDetails {
   @JsonIgnore
   private String password;
 
-  public User(String username, String password) {
+  public User(String fullName, String username, String password) {
+    this.fullName = fullName;
     this.username = username;
     this.password = password;
   }

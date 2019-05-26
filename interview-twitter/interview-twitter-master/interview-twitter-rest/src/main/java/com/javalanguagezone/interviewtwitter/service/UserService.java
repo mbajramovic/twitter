@@ -1,7 +1,11 @@
 package com.javalanguagezone.interviewtwitter.service;
 
+import com.javalanguagezone.interviewtwitter.domain.Tweet;
 import com.javalanguagezone.interviewtwitter.domain.User;
+import com.javalanguagezone.interviewtwitter.repository.TweetRepository;
 import com.javalanguagezone.interviewtwitter.repository.UserRepository;
+import com.javalanguagezone.interviewtwitter.service.dto.DetailDTO;
+import com.javalanguagezone.interviewtwitter.service.dto.TweetDTO;
 import com.javalanguagezone.interviewtwitter.service.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,9 +24,11 @@ import static java.util.stream.Collectors.toList;
 public class UserService implements UserDetailsService {
 
   private UserRepository userRepository;
+  private TweetRepository tweetRepository;
 
-  public UserService(UserRepository userRepository) {
+  public UserService(UserRepository userRepository, TweetRepository tweetRepository) {
     this.userRepository = userRepository;
+    this.tweetRepository = tweetRepository;
   }
 
   @Override
@@ -42,6 +48,28 @@ public class UserService implements UserDetailsService {
   @Transactional
   public Collection<UserDTO> getUsersFollowers(Principal principal) {
     User user = getUser(principal.getName());
+    return convertUsersToDTOs(user.getFollowers());
+  }
+
+  @Transactional
+  public DetailDTO getUserDetails(String username) {
+    User user = getUser(username);
+    Integer numberOfTweets = this.tweetRepository.findAllByAuthor(user).size();
+    Integer numberOfUsersFollowing = getUsersFollowers(username).size();
+    Integer numberOfFollowers = getUsersFollowing(username).size();
+    return new DetailDTO(numberOfTweets, numberOfFollowers, numberOfUsersFollowing);
+
+  }
+
+  @Transactional
+  private Collection<UserDTO> getUsersFollowing(String username) {
+    User user = getUser(username);
+    return convertUsersToDTOs(user.getFollowing());
+  }
+
+  @Transactional
+  private Collection<UserDTO> getUsersFollowers(String username) {
+    User user = getUser(username);
     return convertUsersToDTOs(user.getFollowers());
   }
 

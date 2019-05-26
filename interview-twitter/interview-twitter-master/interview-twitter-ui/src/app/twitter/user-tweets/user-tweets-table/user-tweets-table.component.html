@@ -9,7 +9,7 @@
   <tbody>
   <tr *ngFor="let tweet of tweets">
     <td>{{tweet.id}}</td>
-    <td>{{tweet.author}}</td>
+    <td>{{tweet.author.fullName}} ({{tweet.author.username}})</td>
     <td>{{tweet.content}}</td>
   </tr>
   </tbody>
